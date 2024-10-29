@@ -115,4 +115,47 @@ const router = createBrowserRouter([
 ```javascript
 const users = useLoaderData();
 ```
+
+## **Dynamic Route with params and Loading Data**
+
+- **_main.jsx_**
+```javascript
+const router = createBrowserRouter([
+ {
+   path: "/post/:postId",
+   loader: ({params}) => fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`),
+   element: <PostDetails></PostDetails>
+  }
+]); 
+
+```
+- **_Post.jsx_** :  ```<Link to={`/post/${id}`}>post details</Link> ```
+```javascript
+import { Link } from "react-router-dom";
+
+const Post = ({post}) => {
+    const {id, title} = post;
+    const postStyle = {
+        border: '1px solid green',
+        padding: '5px',
+        borderRadius: '20px'
+    }
+    return (
+        <div style={postStyle}>
+            <h1>postId : {id}</h1>
+            <h2>Title: {title}</h2>
+            <Link to={`/post/${id}`}>post details</Link> 
+        </div>
+    );
+};
+
+export default Post;
+``` 
+
+- **useLoader data in ```PostDetails.jsx``` file**
+
+```javascript
+const users = useLoaderData();
+```
+
           
