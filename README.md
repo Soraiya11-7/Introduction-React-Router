@@ -99,4 +99,20 @@ export default function Root() {
 //  or
 <Link to="/contact">Contact Us </Link>
 ```
+## **Loading Data**
+- **fetch json data in _main.jsx_ file**
+```javascript
+const router = createBrowserRouter([
+ {
+    path: "/users",
+    loader: () => fetch('https://jsonplaceholder.typicode.com/users'),
+    element: <Users></Users>,
+}
+]);
+```
+- **useLoader data in ```Users.jsx``` file**
+
+```javascript
+const users = useLoaderData();
+```
           
