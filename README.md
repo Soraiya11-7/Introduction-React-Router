@@ -157,5 +157,89 @@ export default Post;
 ```javascript
 const users = useLoaderData();
 ```
+## **UseNavigate and Navigate on onClick**
 
-          
+- **_Post.jsx_** file
+
+```javascript
+const navigate = useNavigate();
+
+const handleDetails = () => {
+      navigate(`/post/${id}`)
+  }
+<button onClick={handleDetails}>Click Me to see the details</button>
+```
+
+- **_PostDetails.jsx_** file
+
+```javascript
+const navigateGoBack = useNavigate();
+
+const handleGoBack = () => {
+        navigateGoBack(-1); //move to the Parent node
+    }
+<button onClick={handleGoBack}>Click Me to Go Back</button>
+```
+## **useParams()** 
+
+The useParams hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the ```<Route path>```. Child routes inherit all params from their parent routes.
+
+- **_PostDetails.jsx_** file
+
+```javascript
+  const {postId} = useParams(); //postId used in root file
+  console.log(postId);
+```
+
+## **Handling Not Found Errors** 
+
+
+- **Create an error page component _ErrorPage.jsx_** file
+
+```javascript
+  import { Link, useRouteError } from "react-router-dom";
+
+  const ErrorPage = () => {
+  const error = useRouteError();
+    
+    return (
+        <div>
+            <h2>OOPs!!</h2>
+            <p>Sorry, an unexpected error has occurred.</p>
+        <p>
+        <i>{error.statusText || error.message}</i>
+        </p>
+        {
+            error.status === 404 && <div>
+                <h3>Page not found</h3>
+                <h5>Go back where you from</h5>
+                <Link to="/"><button>Home</button></Link>
+            </div>
+        }
+        </div>
+    );
+};
+
+export default ErrorPage;
+```
+
+- **Set the <ErrorPage> as the errorElement on the root route [ _main.jsx_** file ]
+
+```javascript
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage></ErrorPage>, // <<--This one...
+    children: [
+      {
+        path: "contacts/:contactId",
+        element: <Contact />,
+      },
+    ],
+  },
+]);
+
+
+      
+   
